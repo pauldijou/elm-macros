@@ -59,15 +59,15 @@ type Primitive
   | Number
   | Boolean
 
-type alias CtorType =
+type CtorType =
   { ctor: String
-  , args: List ElmType
+  , arguments: List ElmType
   }
 
 type ElmType
   = PrimitiveType Primitive
   | RecordType String (Dict String ElmType)
-  | UnionType (List CtorType)
+  | UnionType String (List CtorType)
 
 -- ast2elmType: Statement -> Result String ElmType
 -- ast2elmType stmt =

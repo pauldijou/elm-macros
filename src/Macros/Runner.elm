@@ -5,6 +5,7 @@ import Json.Encode
 import Json.Decode
 
 import Ast
+import Ast.Statement exposing (..)
 
 import Macros.Helpers exposing (..)
 import Macros.Internal exposing (..)
@@ -77,12 +78,22 @@ parseContent: Model -> String -> Task String String
 parseContent model content =
   case Ast.parse content of
     Ok (_, _, statements) ->
-      handleStatements model statements
+      handleStatements model content statements
 
     -- Invalid Elm syntax, let's Elm compiler display the error
     Err _ ->
       Task.succeed content
 
-handleStatements: Model -> List Statement -> Task String String
-handleStatements model statements =
-  Task.succeed ""
+handleStatements: Model -> String -> List Statement -> Task String String
+handleStatements model content statements =
+  List.foldl
+    (\stmt acc ->
+      case stmt of
+        ImportStatement moduleName mAlias mExposing ->
+          { acc | context = Context.addImport moduleName mAlias mExposing }
+
+        stmt ->
+          if 
+    )
+    { context = Context.init, task = Task.succeed content }
+    statement
