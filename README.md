@@ -15,16 +15,16 @@ type alias User =
   }
 
 -- You write
-userDecoder: Macro
+userDecoder: Macro (Decoder User)
 userDecoder =
-  Macros.generate "decoder" [ Macros.param "ctor" User ]
+  Macros.generate "decoder" []
 
-userKeys: Macro
+userKeys: Macro (List String)
 userKeys =
   Macros.generate "keys" [ Macro.param "ctor" User ]
 
 -- Macros will generate
-userDecoder: Json.Decode.Decoder User
+userDecoder: Decoder User
 userDecoder =
   Json.Decode.map2
     User
@@ -86,7 +86,7 @@ All macros use the same declaration API.
 
 ```elm
 -- You must put the Macro, it is used to detect the beginning of a macro
-yourVariable: Macro
+yourVariable: Macro (Target Type)
 yourVariable =
   Macros.generate
     -- This is the key from webpack.config.js
@@ -100,9 +100,9 @@ yourVariable =
     ]
 
 -- Sample
-userDecoder: Macro
+userDecoder: Macro (Json.Decode.Decoder User)
 userDecoder =
-  Macros.generate "decoder" [ Macros.param "ctor" User, Macros.override "age" "customAgeDecoder" ]
+  Macros.generate "decoder" [ Macros.override "age" "customAgeDecoder" ]
 ```
 
 ## Write a macro
