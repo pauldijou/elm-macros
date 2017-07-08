@@ -13,18 +13,18 @@ import Macros.Helpers as Helpers exposing (Macro, Modifier(..))
 moduleName: String
 moduleName = "Macros"
 
-isMacroDeclaration: Statement -> Result String (Maybe String)
+isMacroDeclaration: Statement -> Maybe (Result String String)
 isMacroDeclaration stmt =
   case stmt of
     FunctionTypeDeclaration variable typ ->
       case typ of
         TypeConstructor ["Macro"] target ->
           case target of
-            [] -> Err "You must specify a target for the macro. Ex: Macro (Decoder String)"
-            [ tgt ] -> Ok <| Just <| Helpers.stringifyType tgt
-            _ -> Err <| "A macro can only have one target, found " ++ (toString <| List.length target)
-        _ -> Ok Nothing
-    _ -> Ok Nothing
+            [] -> Just <| Err "You must specify a target for the macro. Ex: Macro (Decoder String)"
+            [ tgt ] -> Just <| Ok <| Helpers.stringifyType tgt
+            _ -> Just <| Err <| "A macro can only have one target, found " ++ (toString <| List.length target)
+        _ -> Nothing
+    _ -> Nothing
 
 ast2arguments: List Expression -> List String
 ast2arguments exprs =
@@ -35,8 +35,8 @@ ast2arguments exprs =
     )
     exprs
 
-ast2macro: Statement -> Result String Macro
-ast2macro stmt =
+ast2macro: String -> Statement -> Result String Macro
+ast2macro target stmt =
   case stmt of
     FunctionDeclaration variable args exp ->
       case exp of
@@ -67,7 +67,7 @@ ast2macro stmt =
                           Param key value -> { macro | params = Dict.insert key value macro.params }
                           Override key value -> { macro | overrides = Dict.insert key value macro.overrides }
                         )
-                        (Helpers.emptyMacro name variable (ast2arguments args))
+                        (Helpers.emptyMacro name variable target (ast2arguments args))
                         modifiers
                     -- Failed to parse at least one modifier
                     Err e -> Err e

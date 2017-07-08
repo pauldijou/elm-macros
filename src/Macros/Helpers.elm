@@ -18,11 +18,11 @@ type alias Macro =
   , overrides: Dict String String
   }
 
-emptyMacro: String -> String -> List String -> Macro
-emptyMacro name variable args =
+emptyMacro: String -> String -> String -> List String -> Macro
+emptyMacro name variable target args =
   { name = name
   , variable = variable
-  , target = ""
+  , target = target
   , arguments = args
   , debug = False
   , params = Dict.empty
@@ -59,7 +59,7 @@ type Primitive
   | Number
   | Boolean
 
-type CtorType =
+type alias CtorType =
   { ctor: String
   , arguments: List ElmType
   }
@@ -86,7 +86,7 @@ stringifyType: Type -> String
 stringifyType typ =
   case typ of
     TypeConstructor qt types ->
-      stringifyQualifiedType qt ++ " " ++ (String.join " " <| List.map stringifyType types)
+      (stringifyQualifiedType qt) ++ (if List.isEmpty types then "" else " ") ++ (String.join " " <| List.map stringifyType types)
     TypeVariable name ->
       name
     TypeRecordConstructor t types ->

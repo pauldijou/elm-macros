@@ -9,7 +9,7 @@
   "exposed-modules": [
     "Macros"
   ],
-  "native-modules": false,
+  "native-modules": true,
   "dependencies": {
     "Bogdanp/elm-ast": "8.0.0 <= v < 9.0.0",
     "elm-lang/core": "5.0.0 <= v < 6.0.0"

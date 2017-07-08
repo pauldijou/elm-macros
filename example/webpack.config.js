@@ -27,7 +27,10 @@ module.exports = {
           options: {
             debug: false,
             macros: {
-              decoder: function () {}
+              decoder: function (content) {
+                console.log("MACRO DECODER")
+                return content
+              }
             }
           }
         }

@@ -7,15 +7,15 @@ module Macros exposing (Macro, generate, debug, param, override)
 -}
 
 import Dict exposing (Dict)
-import Macros.Helpers exposing (Macro, Modifier(..), emptyMacro)
+import Macros.Helpers exposing (Modifier(..), emptyMacro)
 
 {-| -}
-type alias Macro = Macro
+type alias Macro = Macros.Helpers.Macro
 
 {-| -}
 generate: String -> List Modifier -> Macro
 generate name modifiers =
-  emptyMacro name "" []
+  emptyMacro name "" "" []
 
 {-| -}
 debug: Modifier

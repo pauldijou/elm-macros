@@ -1,18 +1,25 @@
 module Main exposing (main)
 
+import Macros exposing (Macro)
+
 {-|
 
 @docs main
 
 -}
 
-type alias Model =
-  {}
+type alias Model = String
 
 type Msg
   = None
 
-{-| -}
+type alias User = { name: String }
+
+userDecoder: Macro (Json.Decode.Decoder User)
+userDecoder =
+  Macros.generate "decoder" [ Macros.param "ctor" User ]
+
+{-| Yo lol -}
 main: Program Never Model Msg
 main =
   Platform.program
@@ -23,7 +30,7 @@ main =
 
 init: (Model, Cmd Msg)
 init =
-  {} ! []
+  "" ! []
 
 update: Msg -> Model -> (Model, Cmd Msg)
 update msg model =
