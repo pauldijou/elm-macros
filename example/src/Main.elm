@@ -1,12 +1,13 @@
 module Main exposing (main)
 
-import Macros exposing (Macro)
-
 {-|
 
 @docs main
 
 -}
+
+import Json.Decode
+import Macros exposing (Macro)
 
 type alias Model = String
 

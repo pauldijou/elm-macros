@@ -8,7 +8,7 @@ import Ast.BinOp exposing (..)
 import Ast.Expression exposing (..)
 import Ast.Statement exposing (..)
 
-type alias Macro =
+type alias Macro a =
   { name: String
   , variable: String
   , target: String
@@ -16,9 +16,11 @@ type alias Macro =
   , debug: Bool
   , params: Dict String String
   , overrides: Dict String String
+  -- hack to enable generic param on macro type
+  , hack: Maybe a
   }
 
-emptyMacro: String -> String -> String -> List String -> Macro
+emptyMacro: String -> String -> String -> List String -> Macro a
 emptyMacro name variable target args =
   { name = name
   , variable = variable
@@ -27,6 +29,7 @@ emptyMacro name variable target args =
   , debug = False
   , params = Dict.empty
   , overrides = Dict.empty
+  , hack = Nothing
   }
 
 encodeDict: Dict String String -> Encode.Value
@@ -36,7 +39,7 @@ encodeDict dict =
   |> Dict.toList
   |> Encode.object
 
-encode: Macro -> Encode.Value
+encode: Macro a -> Encode.Value
 encode macro =
   Encode.object
     [ ("name", Encode.string macro.name)

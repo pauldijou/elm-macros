@@ -2,6 +2,7 @@ var _pauldijou$elm_macros$Native_Runner = function () {
   var scheduler = _elm_lang$core$Native_Scheduler
 
   function handle(handler, content) {
+    console.log('HANDLE');
     var result
 
     try {
@@ -27,4 +28,4 @@ var _pauldijou$elm_macros$Native_Runner = function () {
   return {
     handle: F2(handle)
   }
-}
+}()

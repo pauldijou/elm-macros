@@ -35,7 +35,7 @@ ast2arguments exprs =
     )
     exprs
 
-ast2macro: String -> Statement -> Result String Macro
+ast2macro: String -> Statement -> Result String (Macro a)
 ast2macro target stmt =
   case stmt of
     FunctionDeclaration variable args exp ->
